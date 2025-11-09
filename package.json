@@ -1,0 +1,23 @@
+{
+  "name": "darknet-scraper",
+  "version": "1.0.0",
+  "description": "Data scraper for darknet forums with PII detection and report generation",
+  "main": "scraper.js",
+  "scripts": {
+    "start": "node run.js",
+    "scrape": "node run.js",
+    "test": "node scraper.js"
+  },
+  "keywords": [
+    "darknet",
+    "scraper",
+    "tor",
+    "data-acquisition",
+    "pii-detection"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "tor-axios": "^1.0.11"
+  }
+}
