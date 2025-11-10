@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Acquisition Report - 11/10/2025</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 12px 12px 0 0;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+
+        .header .subtitle {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 20px;
+        }
+
+        .header .meta {
+            font-size: 12px;
+            color: #999;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 8px;
+            padding: 24px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 16px rgba(102, 126, 234, 0.2);
+        }
+
+        .stat-card .number {
+            font-size: 36px;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+
+        .stat-card .label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #888;
+            font-weight: 600;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.98);
+            padding: 30px;
+            margin-top: 2px;
+        }
+
+        .section:last-child {
+            border-radius: 0 0 12px 12px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 20px;
+            background: #667eea;
+            border-radius: 2px;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 16px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #856404;
+        }
+
+        .warning-box strong {
+            color: #856404;
+        }
+
+        .data-source {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .data-source-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 12px;
+        }
+
+        .data-source .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #e9ecef;
+            font-size: 14px;
+        }
+
+        .data-source .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .data-source .info-label {
+            color: #666;
+            font-weight: 500;
+        }
+
+        .data-source .info-value {
+            color: #333;
+            font-weight: 400;
+            word-break: break-all;
+            max-width: 60%;
+            text-align: right;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            border-radius: 8px;
+            padding: 20px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+            line-height: 1.6;
+        }
+
+        .code-block .key {
+            color: #66d9ef;
+        }
+
+        .code-block .string {
+            color: #a6e22e;
+        }
+
+        .code-block .number {
+            color: #ae81ff;
+        }
+
+        .security-item {
+            display: flex;
+            align-items: start;
+            gap: 12px;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+
+        .security-item .icon {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+            color: #28a745;
+        }
+
+        .security-item .text {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: white;
+            font-size: 12px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .stat-card .number {
+                font-size: 28px;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+
+            .container {
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Data Acquisition Report</h1>
+            <div class="subtitle">Darknet Forum Scraping & Analysis</div>
+            <div class="meta">
+                <span>Generated: 11/10/2025, 11:21:19 AM</span>
+                <span>Status: <span class="status-badge status-success">200 OK</span></span>
+            </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="number">20</div>
+                <div class="label">Total Posts</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">1</div>
+                <div class="label">Unique Users</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">18</div>
+                <div class="label">Links Found</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">0</div>
+                <div class="label">Posts with PII</div>
+            </div>
+        </div>
+
+        <!-- Warning Box -->
+        
+
+        <!-- Data Sources -->
+        <div class="section">
+            <div class="section-title">📊 Data Sources</div>
+            
+            <div class="data-source">
+                <div class="data-source-title">Source 1: Darknet - Discounts on Avia, Hotels from Serggik00</div>
+                <div class="info-row">
+                    <span class="info-label">Type:</span>
+                    <span class="info-value">Darknet (.onion)</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Source URL:</span>
+                    <span class="info-value">http://darknet2efyjfa6vs6rbipf4pw5birq3wzlda43hmp2mrgt3py23qhad.onion/threads/discounts-on-avia-hotels-from-serggik00.3499/</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Collection Method:</span>
+                    <span class="info-value">Automated scraping via Tor</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Data Size:</span>
+                    <span class="info-value">250 KB</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Sample -->
+        <div class="section">
+            <div class="section-title">📝 Data Sample</div>
+            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">
+                First 5 records out of 20 in the dataset:
+            </p>
+            <div class="code-block">[
+{
+    <span class="key">"id"</span>: <span class="number">1</span>,
+    <span class="key">"username"</span>: <span class="string">"Serggik00"</span>,
+    <span class="key">"userTitle"</span>: <span class="string">"Vendor of: ID Scans, Documents Drawing, Travel Booking"</span>,
+    <span class="key">"postDate"</span>: <span class="string">"2024-01-22T00:40:15+0300"</span>,
+    <span class="key">"content"</span>: <span class="string">"{ \"lightbox_close\": \"Close\", \"lightbox_next\": \"Next\", \"lightbox_previous\": \"Prev..."</span>,
+    <span class="key">"piiDetected"</span>: false
+},
+
+{
+    <span class="key">"id"</span>: <span class="number">2</span>,
+    <span class="key">"username"</span>: <span class="string">"Serggik00"</span>,
+    <span class="key">"userTitle"</span>: <span class="string">"Vendor of: ID Scans, Documents Drawing, Travel Booking"</span>,
+    <span class="key">"postDate"</span>: <span class="string">"2024-07-14T16:16:48+0300"</span>,
+    <span class="key">"content"</span>: <span class="string">"Italy is a country where magic is real:..."</span>,
+    <span class="key">"piiDetected"</span>: false
+},
+
+{
+    <span class="key">"id"</span>: <span class="number">3</span>,
+    <span class="key">"username"</span>: <span class="string">"Serggik00"</span>,
+    <span class="key">"userTitle"</span>: <span class="string">"Vendor of: ID Scans, Documents Drawing, Travel Booking"</span>,
+    <span class="key">"postDate"</span>: <span class="string">"2024-07-14T22:29:54+0300"</span>,
+    <span class="key">"content"</span>: <span class="string">"Abu Dhabi - Eastern Lights:..."</span>,
+    <span class="key">"piiDetected"</span>: false
+},
+
+{
+    <span class="key">"id"</span>: <span class="number">4</span>,
+    <span class="key">"username"</span>: <span class="string">"Serggik00"</span>,
+    <span class="key">"userTitle"</span>: <span class="string">"Vendor of: ID Scans, Documents Drawing, Travel Booking"</span>,
+    <span class="key">"postDate"</span>: <span class="string">"2024-07-14T22:37:30+0300"</span>,
+    <span class="key">"content"</span>: <span class="string">"Review from a nearby site:..."</span>,
+    <span class="key">"piiDetected"</span>: false
+},
+
+{
+    <span class="key">"id"</span>: <span class="number">5</span>,
+    <span class="key">"username"</span>: <span class="string">"Serggik00"</span>,
+    <span class="key">"userTitle"</span>: <span class="string">"Vendor of: ID Scans, Documents Drawing, Travel Booking"</span>,
+    <span class="key">"postDate"</span>: <span class="string">"2024-07-14T22:56:55+0300"</span>,
+    <span class="key">"content"</span>: <span class="string">"Review from a nearby site. Part 1:..."</span>,
+    <span class="key">"piiDetected"</span>: false
+}
+]</div>
+        </div>
+
+        <!-- Security & Privacy -->
+        <div class="section">
+            <div class="section-title">🔒 Security & Privacy</div>
+            
+            <div class="security-item">
+                <svg class="icon" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                </svg>
+                <div class="text">
+                    <strong>Tor network anonymity provided</strong><br>
+                    All connections routed through Tor for privacy. Source IP addresses are anonymized.
+                </div>
+            </div>
+
+            <div class="security-item">
+                <svg class="icon" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                </svg>
+                <div class="text">
+                    <strong>Local data storage</strong><br>
+                    All data stored locally. No external transmission or cloud storage.
+                </div>
+            </div>
+
+            <div class="security-item">
+                <svg class="icon" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                </svg>
+                <div class="text">
+                    <strong>PII detection implemented</strong><br>
+                    Automated scanning for emails, phone numbers, addresses, and other sensitive data types.
+                </div>
+            </div>
+
+            <div class="security-item">
+                <svg class="icon" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                </svg>
+                <div class="text">
+                    <strong>Data protection compliance</strong><br>
+                    Scraping limited to publicly accessible content. No authentication bypass or unauthorized access.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        © 2025 Darknet Scraper | Data Acquisition & Analysis Tool
+    </div>
+
+    <script>
+        // Print functionality
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === 'p') {
+                window.print();
+            }
+        });
+    </script>
+</body>
+</html>

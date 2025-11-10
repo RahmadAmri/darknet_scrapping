@@ -6,7 +6,7 @@
 	data-content-key="thread-3499"
 	data-logged-in="false"
 	data-cookie-prefix="xf_"
-	data-csrf="1762714372,b4c45c720c6f015de80bbf51ad5cbf00"
+	data-csrf="1762749356,c8990d6370d8f8402ee8380c1530b276"
 	data-nav-section=""
 data-page-section="forums"
 class="has-no-js template-thread_view page-section-forums "
@@ -161,519 +161,6 @@ I present to your attention one of the oldest services on the market! Our servic
 	
 
 
-
-<style>
-/* ================================
-   DARKNET FORUM VIEWER - CLEAN CSS
-   ================================ */
-
-/* Reset and Base Styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  line-height: 1.6;
-  color: #e0e0e0;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-  min-height: 100vh;
-  padding: 20px;
-}
-
-/* Container */
-#XF {
-  max-width: 1200px;
-  margin: 0 auto;
-  background: rgba(30, 30, 46, 0.95);
-  border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(10px);
-  overflow: hidden;
-}
-
-/* Header Section */
-.p-body-header,
-.p-title {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 30px;
-  color: white;
-  border-bottom: 3px solid rgba(255, 255, 255, 0.1);
-}
-
-.p-title-value,
-h1.p-title-value {
-  font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 15px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-  color: white !important;
-}
-
-/* Thread Meta Information */
-.p-description,
-.pairs,
-dl.pairs {
-  background: rgba(255, 255, 255, 0.08);
-  padding: 15px;
-  border-radius: 8px;
-  margin-top: 15px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
-.pairs dt {
-  font-weight: 600;
-  color: #a8a8ff;
-  margin-right: 5px;
-}
-
-.pairs dd {
-  color: #e0e0e0;
-  margin-right: 20px;
-}
-
-/* Main Content Area */
-.p-body-content,
-.p-body-pageContent {
-  padding: 0;
-}
-
-/* Post/Message Containers */
-.block-container,
-.block {
-  margin: 0;
-  background: transparent;
-}
-
-.block-body {
-  background: transparent;
-}
-
-/* Individual Posts */
-article.message,
-.message {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-  margin-bottom: 20px;
-  padding: 20px;
-  transition: all 0.3s ease;
-  overflow: hidden;
-}
-
-.message:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(102, 126, 234, 0.5);
-  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.2);
-  transform: translateY(-2px);
-}
-
-/* Message Header */
-.message-cell--user,
-.message-user {
-  background: rgba(102, 126, 234, 0.1);
-  padding: 15px;
-  border-radius: 8px;
-  margin-bottom: 15px;
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-/* User Avatar */
-.message-avatar,
-.avatar {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  border: 3px solid rgba(102, 126, 234, 0.5);
-  overflow: hidden;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  font-weight: bold;
-  color: white;
-  text-transform: uppercase;
-  flex-shrink: 0;
-}
-
-.avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* Username and User Info */
-.message-userDetails {
-  flex: 1;
-}
-
-.username,
-h4.username,
-a.username {
-  font-size: 18px;
-  font-weight: 700;
-  color: #667eea !important;
-  text-decoration: none;
-  display: block;
-  margin-bottom: 5px;
-}
-
-.username:hover {
-  color: #764ba2 !important;
-  text-decoration: underline;
-}
-
-.userTitle,
-.message-userTitle {
-  font-size: 13px;
-  color: #a8a8ff;
-  font-style: italic;
-  margin-bottom: 5px;
-}
-
-.userBanner {
-  display: inline-block;
-  padding: 4px 12px;
-  border-radius: 12px;
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  margin-top: 5px;
-}
-
-.userBanner--primary {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-}
-
-/* Message Content */
-.message-cell--main,
-.message-main {
-  padding: 15px;
-}
-
-.message-content,
-.bbWrapper {
-  color: #e0e0e0;
-  font-size: 15px;
-  line-height: 1.8;
-  word-wrap: break-word;
-}
-
-.bbWrapper img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 8px;
-  margin: 15px 0;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s ease;
-  display: block;
-}
-
-.bbWrapper img:hover {
-  transform: scale(1.02);
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
-}
-
-/* Message Footer */
-.message-footer,
-.message-signature {
-  margin-top: 15px;
-  padding-top: 15px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  font-size: 13px;
-  color: #999;
-}
-
-/* Timestamps */
-.u-dt,
-time,
-.message-date {
-  color: #999;
-  font-size: 13px;
-}
-
-/* Links */
-a {
-  color: #667eea;
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-a:hover {
-  color: #764ba2;
-  text-decoration: underline;
-}
-
-/* Buttons */
-.button,
-.button--link {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white !important;
-  padding: 8px 16px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  display: inline-block;
-  text-decoration: none !important;
-}
-
-.button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-}
-
-/* Reactions Bar */
-.reactionsBar,
-.message-footer-main {
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.reaction {
-  background: rgba(255, 255, 255, 0.05);
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* Attachments */
-.message-attachments,
-.attachmentList {
-  margin-top: 20px;
-  padding: 15px;
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 8px;
-  border: 1px dashed rgba(255, 255, 255, 0.2);
-}
-
-.attachment {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 6px;
-  margin-bottom: 10px;
-}
-
-/* Code Blocks */
-code,
-pre {
-  background: rgba(0, 0, 0, 0.3);
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-family: 'Monaco', 'Courier New', monospace;
-  font-size: 13px;
-  color: #7dd3fc;
-}
-
-pre {
-  padding: 15px;
-  overflow-x: auto;
-  margin: 10px 0;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* Quotes */
-blockquote,
-.bbCodeBlock--quote {
-  border-left: 4px solid #667eea;
-  padding: 15px;
-  margin: 15px 0;
-  background: rgba(102, 126, 234, 0.1);
-  border-radius: 4px;
-  font-style: italic;
-}
-
-/* Pagination */
-.pageNav,
-.pageNav-main {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  padding: 30px;
-  flex-wrap: wrap;
-}
-
-.pageNav-page {
-  background: rgba(255, 255, 255, 0.05);
-  padding: 10px 16px;
-  border-radius: 6px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #e0e0e0;
-  transition: all 0.3s ease;
-}
-
-.pageNav-page:hover,
-.pageNav-page.is-current {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-color: transparent;
-  color: white;
-}
-
-/* Sidebar */
-.p-body-sidebar {
-  background: rgba(255, 255, 255, 0.03);
-  padding: 20px;
-  border-radius: 8px;
-  margin-top: 20px;
-}
-
-/* Tags */
-.tagList {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 15px 0;
-}
-
-.tag {
-  background: rgba(102, 126, 234, 0.2);
-  color: #a8a8ff;
-  padding: 4px 12px;
-  border-radius: 12px;
-  font-size: 12px;
-  border: 1px solid rgba(102, 126, 234, 0.3);
-}
-
-/* Hide/Clean unwanted elements */
-.message-signature,
-.message-lastEdit,
-script,
-noscript,
-.js-lbContainer,
-.overlay,
-.menu,
-.p-nav,
-.p-footer,
-.copyright {
-  display: none !important;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  body {
-    padding: 10px;
-  }
-
-  #XF {
-    border-radius: 8px;
-  }
-
-  .p-title-value,
-  h1.p-title-value {
-    font-size: 22px;
-  }
-
-  .message {
-    padding: 15px;
-  }
-
-  .message-cell--user,
-  .message-user {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .avatar {
-    width: 50px;
-    height: 50px;
-    font-size: 20px;
-  }
-}
-
-/* Print Styles */
-@media print {
-  body {
-    background: white;
-    color: black;
-  }
-
-  #XF {
-    box-shadow: none;
-    background: white;
-  }
-
-  .message {
-    page-break-inside: avoid;
-    border: 1px solid #ddd;
-  }
-
-  a {
-    color: #000;
-    text-decoration: underline;
-  }
-
-  .button,
-  .pageNav {
-    display: none;
-  }
-}
-
-/* Loading Animation */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.message {
-  animation: fadeIn 0.5s ease-out;
-}
-
-/* Scrollbar Styling */
-::-webkit-scrollbar {
-  width: 12px;
-}
-
-::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.2);
-}
-
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 6px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
-}
-
-/* Success Indicator */
-.message::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 4px;
-  background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.message:hover::before {
-  opacity: 1;
-}
-</style>
-
 </head><div class="xenet-copyright"<a href="https://xenet.info/resources/" title="Download free plugins for Xenforo WordPress"</a></div>
 			<div class="xenet-copyright">
 			<a href="https://xenet.info/resources/" title="Download free plugins for Xenforo WordPress"</a>
@@ -819,7 +306,7 @@ noscript,
 
 									</div>
 
-									<input type="hidden" name="_xfToken" value="1762714372,b4c45c720c6f015de80bbf51ad5cbf00" />
+									<input type="hidden" name="_xfToken" value="1762749356,c8990d6370d8f8402ee8380c1530b276" />
 
 								</form>
 							
@@ -925,7 +412,7 @@ noscript,
 									</span>
 								</div>
 
-								<input type="hidden" name="_xfToken" value="1762714372,b4c45c720c6f015de80bbf51ad5cbf00" />
+								<input type="hidden" name="_xfToken" value="1762749356,c8990d6370d8f8402ee8380c1530b276" />
 							</form>
 						</div>
 					
@@ -1212,7 +699,7 @@ noscript,
 
 			
 	
-	<a href="/regiester/"
+	<a href="/register/"
 		class="p-navEl-link "
 		 style="color: #FAC51C;"
 		
@@ -11835,7 +11322,7 @@ The Serggik00&amp;Ko team welcomes..." class="" data-tp-primary="on" data-xf-ini
 		<div class="structItem-cell structItem-cell--latest">
 			
 				
-				<a href="/threads/the-best-design-on-the-market-from-serggik00-ko-avatars-banners-stickers-theme-design-animation-and-much-more.3487/latest" rel="nofollow"><time  class="structItem-latestDate u-dt" dir="auto" datetime="2025-11-08T23:20:58+0300" data-time="1762633258" data-date-string="November 8, 2025" data-time-string="11:20 PM" title="November 8, 2025 at 11:20 PM">Yesterday at 11:20 PM</time></a>
+				<a href="/threads/the-best-design-on-the-market-from-serggik00-ko-avatars-banners-stickers-theme-design-animation-and-much-more.3487/latest" rel="nofollow"><time  class="structItem-latestDate u-dt" dir="auto" datetime="2025-11-08T23:20:58+0300" data-time="1762633258" data-date-string="November 8, 2025" data-time-string="11:20 PM" title="November 8, 2025 at 11:20 PM">Saturday at 11:20 PM</time></a>
 				
 				<div class="structItem-minor">
 					
@@ -11984,7 +11471,7 @@ The Serggik00&amp;Ko team welcomes..." class="" data-tp-primary="on" data-xf-ini
 		<div class="structItem-cell structItem-cell--latest">
 			
 				
-				<a href="/threads/the-best-rendering-of-documents-from-serggik00-24-7.3486/latest" rel="nofollow"><time  class="structItem-latestDate u-dt" dir="auto" datetime="2025-11-08T23:19:56+0300" data-time="1762633196" data-date-string="November 8, 2025" data-time-string="11:19 PM" title="November 8, 2025 at 11:19 PM">Yesterday at 11:19 PM</time></a>
+				<a href="/threads/the-best-rendering-of-documents-from-serggik00-24-7.3486/latest" rel="nofollow"><time  class="structItem-latestDate u-dt" dir="auto" datetime="2025-11-08T23:19:56+0300" data-time="1762633196" data-date-string="November 8, 2025" data-time-string="11:19 PM" title="November 8, 2025 at 11:19 PM">Saturday at 11:19 PM</time></a>
 				
 				<div class="structItem-minor">
 					
@@ -12318,7 +11805,7 @@ The Serggik00&amp;Ko team welcomes..." class="" data-tp-primary="on" data-xf-ini
 
 
                 <div>
-                    <div class="p-footer-copyright">Server Time: November 9, 2025, 21:52
+                    <div class="p-footer-copyright">Server Time: November 10, 2025, 07:35
                     </div>
                 </div>
 
@@ -12358,7 +11845,7 @@ The Serggik00&amp;Ko team welcomes..." class="" data-tp-primary="on" data-xf-ini
 
 	<script>
 	XF.samViewCountMethod = "view";
-	XF.samServerTime = 1762714372;
+	XF.samServerTime = 1762749356;
 	XF.samItem = ".samItem";
 	XF.samCodeUnit = ".samCodeUnit";
 	XF.samBannerUnit = ".samBannerUnit";
@@ -12449,16 +11936,16 @@ realTimeAlerts: {
 				consented: ""
 			},
 			cacheKey: '9a14c6ac61a46388e0da48e5350c7a4e',
-			csrf: '1762714372,b4c45c720c6f015de80bbf51ad5cbf00',
+			csrf: '1762749356,c8990d6370d8f8402ee8380c1530b276',
 			js: {"\/js\/xenconcept\/hidebbcode\/check-hide.min.js?_v=9603992b":true,"\/js\/bs\/real_time_threads\/thread.min.js?_v=9603992b":true,"\/js\/xf\/lightbox-compiled.js?_v=9603992b":true,"\/js\/nulumia\/seotools\/tooltip.js?_v=9603992b":true,"\/js\/DBTech\/UserTagging\/core.min.js?_v=9603992b":true},
 			css: {"public:bs_rtt_thread_view.less":true,"public:cxf_google_translate_forum.less":true,"public:cxf_top_navigation.less":true,"public:lightbox.less":true,"public:message.less":true,"public:nulumia_breadcrumb_essentials.less":true,"public:share_controls.less":true,"public:structured_list.less":true,"public:xc_next_previous_thread_thread_view.less":true,"public:extra.less":true},
 			time: {
-				now: 1762714372,
-				today: 1762635600,
-				todayDow: 0,
-				tomorrow: 1762722000,
-				yesterday: 1762549200,
-				week: 1762117200
+				now: 1762749356,
+				today: 1762722000,
+				todayDow: 1,
+				tomorrow: 1762808400,
+				yesterday: 1762635600,
+				week: 1762203600
 			},
 			borderSizeFeature: '3px',
 			fontAwesomeWeight: 'r',
