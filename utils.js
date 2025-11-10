@@ -1,14 +1,7 @@
-/**
- * Utility functions for the Darknet Scraper
- */
-
 const crypto = require("crypto");
 const fs = require("fs");
 const path = require("path");
 
-/**
- * Clean HTML entities and tags from text
- */
 function cleanText(text) {
   if (!text) return "";
 
@@ -28,16 +21,10 @@ function cleanText(text) {
     .trim();
 }
 
-/**
- * Generate MD5 hash of content
- */
 function generateHash(content) {
   return crypto.createHash("md5").update(JSON.stringify(content)).digest("hex");
 }
 
-/**
- * Ensure directory exists
- */
 function ensureDir(dirPath) {
   if (!fs.existsSync(dirPath)) {
     fs.mkdirSync(dirPath, { recursive: true });
@@ -45,9 +32,6 @@ function ensureDir(dirPath) {
   return dirPath;
 }
 
-/**
- * Save JSON to file
- */
 function saveJson(data, filepath) {
   const dir = path.dirname(filepath);
   ensureDir(dir);
@@ -55,9 +39,6 @@ function saveJson(data, filepath) {
   return filepath;
 }
 
-/**
- * Save text to file
- */
 function saveText(text, filepath) {
   const dir = path.dirname(filepath);
   ensureDir(dir);
@@ -65,9 +46,6 @@ function saveText(text, filepath) {
   return filepath;
 }
 
-/**
- * Read JSON from file
- */
 function readJson(filepath) {
   if (!fs.existsSync(filepath)) {
     return null;
@@ -76,17 +54,11 @@ function readJson(filepath) {
   return JSON.parse(content);
 }
 
-/**
- * Format timestamp to readable string
- */
 function formatTimestamp(timestamp) {
   const date = new Date(timestamp);
   return date.toISOString().replace(/T/, " ").replace(/\..+/, "");
 }
 
-/**
- * Extract domain from URL
- */
 function extractDomain(url) {
   try {
     const urlObj = new URL(url);
@@ -96,16 +68,10 @@ function extractDomain(url) {
   }
 }
 
-/**
- * Sleep/delay function
- */
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-/**
- * Sanitize filename
- */
 function sanitizeFilename(filename) {
   return filename
     .replace(/[^a-z0-9._-]/gi, "_")
@@ -113,9 +79,6 @@ function sanitizeFilename(filename) {
     .toLowerCase();
 }
 
-/**
- * Extract text between tags
- */
 function extractBetween(text, startTag, endTag) {
   const startIndex = text.indexOf(startTag);
   if (startIndex === -1) return null;
@@ -127,9 +90,6 @@ function extractBetween(text, startTag, endTag) {
   return text.substring(start, endIndex);
 }
 
-/**
- * Parse query string from URL
- */
 function parseQueryString(url) {
   try {
     const urlObj = new URL(url);
@@ -143,9 +103,6 @@ function parseQueryString(url) {
   }
 }
 
-/**
- * Validate URL
- */
 function isValidUrl(string) {
   try {
     new URL(string);
@@ -155,9 +112,6 @@ function isValidUrl(string) {
   }
 }
 
-/**
- * Get file size in human readable format
- */
 function formatFileSize(bytes) {
   if (bytes === 0) return "0 Bytes";
 
@@ -168,24 +122,15 @@ function formatFileSize(bytes) {
   return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + " " + sizes[i];
 }
 
-/**
- * Count words in text
- */
 function countWords(text) {
   return text.trim().split(/\s+/).length;
 }
 
-/**
- * Truncate text with ellipsis
- */
 function truncate(text, maxLength = 100) {
   if (text.length <= maxLength) return text;
   return text.substring(0, maxLength - 3) + "...";
 }
 
-/**
- * Detect language (simple detection)
- */
 function detectLanguage(text) {
   const cyrillicChars = text.match(/[а-яА-ЯёЁ]/g);
   const latinChars = text.match(/[a-zA-Z]/g);
@@ -196,9 +141,6 @@ function detectLanguage(text) {
   return "en";
 }
 
-/**
- * Extract URLs from text
- */
 function extractUrls(text) {
   const urlRegex = /(https?:\/\/[^\s]+)/g;
   const onionRegex = /(http:\/\/[a-z0-9]+\.onion[^\s]*)/g;
@@ -219,9 +161,6 @@ function extractUrls(text) {
   return urls;
 }
 
-/**
- * Rate limiter class
- */
 class RateLimiter {
   constructor(maxRequests, timeWindow) {
     this.maxRequests = maxRequests;
@@ -246,9 +185,6 @@ class RateLimiter {
   }
 }
 
-/**
- * Retry wrapper for async functions
- */
 async function retry(fn, maxRetries = 3, delay = 1000) {
   let lastError;
 

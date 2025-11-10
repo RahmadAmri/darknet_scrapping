@@ -1,20 +1,14 @@
-/**
- * Configuration file for the Darknet Scraper
- */
-
 module.exports = {
-  // Tor connection settings
   tor: {
     host: "127.0.0.1",
     port: 9050,
-    timeout: 60000, // 60 seconds
+    timeout: 60000,
   },
 
-  // HTTP request settings
   request: {
     timeout: 60000,
     maxRetries: 3,
-    retryDelay: 5000, // 5 seconds
+    retryDelay: 5000,
     headers: {
       "User-Agent":
         "Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101 Firefox/91.0",
@@ -27,7 +21,6 @@ module.exports = {
     },
   },
 
-  // Output directories
   output: {
     baseDir: "./output",
     dataDir: "./output/data",
@@ -35,7 +28,6 @@ module.exports = {
     screenshotsDir: "./output/screenshots",
   },
 
-  // PII detection patterns
   pii: {
     patterns: {
       email: /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g,
@@ -49,18 +41,16 @@ module.exports = {
     },
   },
 
-  // Scraping settings
   scraping: {
     maxPosts: 1000,
     maxPages: 10,
-    delayBetweenRequests: 2000, // 2 seconds
+    delayBetweenRequests: 2000,
     enableDeduplication: true,
     saveRawHtml: true,
     saveJson: true,
     generateReport: true,
   },
 
-  // Target URLs
   targets: {
     darknet: [
       "http://darknet2efyjfa6vs6rbipf4pw5birq3wzlda43hmp2mrgt3py23qhad.onion/threads/discounts-on-avia-hotels-from-serggik00.3499/",

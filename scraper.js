@@ -1,61 +1,58 @@
-const torAxios = require('tor-axios');
-const fs = require('fs');
-const path = require('path');
-const crypto = require('crypto');
+const torAxios = require("tor-axios");
+const fs = require("fs");
+const path = require("path");
+const crypto = require("crypto");
 
 class DarknetScraper {
   constructor() {
-    this.outputDir = path.join(__dirname, 'output');
-    this.dataDir = path.join(this.outputDir, 'data');
-    this.reportsDir = path.join(this.outputDir, 'reports');
+    this.outputDir = path.join(__dirname, "output");
+    this.dataDir = path.join(this.outputDir, "data");
+    this.reportsDir = path.join(this.outputDir, "reports");
     this.collectedData = [];
     this.deduplicationSet = new Set();
-    
-    // Setup Tor connection - try both ports (9050 standard, 9150 Tor Browser)
+
     this.torClient = null;
     this.setupTorClient();
-    
-    // Create output directories
-    [this.outputDir, this.dataDir, this.reportsDir].forEach(dir => {
+
+    [this.outputDir, this.dataDir, this.reportsDir].forEach((dir) => {
       if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir, { recursive: true });
       }
     });
   }
 
-  /**
-   * Setup Tor client connection
-   */
   setupTorClient() {
-    // Try port 9150 first (Tor Browser), then 9050 (standalone Tor)
     try {
       this.torClient = torAxios.torSetup({
-        ip: 'localhost',
-        port: 9150, // Tor Browser port
+        ip: "localhost",
+        port: 9150,
       });
-      console.log('[INFO] Tor client configured for port 9150 (Tor Browser)\n');
+      console.log("[INFO] Tor client configured for port 9150 (Tor Browser)\n");
     } catch (error) {
       try {
         this.torClient = torAxios.torSetup({
-          ip: 'localhost',
-          port: 9050, // Standalone Tor port
+          ip: "localhost",
+          port: 9050,
         });
-        console.log('[INFO] Tor client configured for port 9050 (standalone Tor)\n');
+        console.log(
+          "[INFO] Tor client configured for port 9050 (standalone Tor)\n"
+        );
       } catch (err) {
-        console.error('[ERROR] Failed to setup Tor client:', err.message);
-        throw new Error('Could not setup Tor connection. Make sure Tor is running.');
+        console.error("[ERROR] Failed to setup Tor client:", err.message);
+        throw new Error(
+          "Could not setup Tor connection. Make sure Tor is running."
+        );
       }
     }
-  }  /**
-   * Initialize Tor connection and fetch data from darknet URL
-   */
+  }
+
   async fetchFromDarknet(url) {
     console.log(`[INFO] Fetching data from: ${url}`);
     console.log("[INFO] Connecting through Tor network...\n");
 
     try {
       const response = await this.torClient.get(url, {
-        timeout: 60000, // 60 second timeout
+        timeout: 60000,
         headers: {
           "User-Agent":
             "Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101 Firefox/91.0",
@@ -68,11 +65,6 @@ class DarknetScraper {
         },
       });
 
-      console.log(
-        `[SUCCESS] Status: ${response.status} ${response.statusText}`
-      );
-      console.log(`[INFO] Content length: ${response.data.length} bytes\n`);
-
       return {
         url: url,
         status: response.status,
@@ -83,17 +75,11 @@ class DarknetScraper {
         contentLength: response.data.length,
       };
     } catch (error) {
-      console.error(`[ERROR] Failed to fetch from ${url}:`, error.message);
-      throw error;
+      console.log(error.message);
     }
   }
 
-  /**
-   * Parse HTML and extract thread information
-   */
   parseThreadData(html, sourceUrl) {
-    console.log("[INFO] Parsing thread data...");
-
     const data = {
       sourceUrl: sourceUrl,
       timestamp: new Date().toISOString(),
@@ -105,7 +91,6 @@ class DarknetScraper {
     };
 
     try {
-      // Extract thread title
       const titleMatch = html.match(
         /<h1[^>]*class="[^"]*p-title-value[^"]*"[^>]*>(.*?)<\/h1>/s
       );
@@ -113,14 +98,12 @@ class DarknetScraper {
         data.threadInfo.title = this.cleanText(titleMatch[1]);
       }
 
-      // Extract thread metadata
       const threadMetaMatch = html.match(
         /<dl[^>]*class="[^"]*pairs[^"]*"[^>]*>(.*?)<\/dl>/s
       );
       if (threadMetaMatch) {
         const metaData = threadMetaMatch[1];
 
-        // Extract starter
         const starterMatch = metaData.match(
           /<dt>Thread starter<\/dt>\s*<dd[^>]*>(.*?)<\/dd>/s
         );
@@ -131,7 +114,6 @@ class DarknetScraper {
           }
         }
 
-        // Extract start date
         const dateMatch = metaData.match(
           /<dt>Start date<\/dt>\s*<dd[^>]*>(.*?)<\/dd>/s
         );
@@ -143,7 +125,6 @@ class DarknetScraper {
         }
       }
 
-      // Extract all posts
       const postRegex =
         /<article[^>]*class="[^"]*message[^"]*"[^>]*data-content="[^"]*"[^>]*>(.*?)<\/article>/gs;
       let postMatch;
@@ -162,7 +143,6 @@ class DarknetScraper {
           reactions: 0,
         };
 
-        // Extract username
         const usernameMatch = postHtml.match(
           /class="[^"]*username[^"]*"[^>]*>([^<]+)</
         );
@@ -173,7 +153,6 @@ class DarknetScraper {
           }
         }
 
-        // Extract user title/role
         const userTitleMatch = postHtml.match(
           /class="[^"]*userTitle[^"]*"[^>]*>([^<]+)</
         );
@@ -181,24 +160,20 @@ class DarknetScraper {
           post.userTitle = this.cleanText(userTitleMatch[1]);
         }
 
-        // Extract post date
         const dateMatch = postHtml.match(/datetime="([^"]+)"/);
         if (dateMatch) {
           post.postDate = dateMatch[1];
         }
 
-        // Extract message content
         const contentMatch = postHtml.match(
           /<div[^>]*class="[^"]*bbWrapper[^"]*"[^>]*>(.*?)<\/div>/s
         );
         if (contentMatch) {
           post.content = this.cleanText(contentMatch[1]);
 
-          // Check for PII patterns
           post.piiDetected = this.detectPII(post.content);
         }
 
-        // Extract reactions
         const reactionsMatch = postHtml.match(/class="[^"]*reactionsBar[^"]*"/);
         if (reactionsMatch) {
           const reactionCountMatch = postHtml.match(
@@ -212,7 +187,6 @@ class DarknetScraper {
         data.posts.push(post);
       }
 
-      // Extract all links
       const linkRegex = /href="([^"]+)"/g;
       let linkMatch;
       while ((linkMatch = linkRegex.exec(html)) !== null) {
@@ -224,7 +198,6 @@ class DarknetScraper {
         }
       }
 
-      // Extract attachments
       const attachmentRegex =
         /class="[^"]*attachment[^"]*"[^>]*>(.*?)<\/div>/gs;
       let attachMatch;
@@ -242,22 +215,16 @@ class DarknetScraper {
       }
 
       console.log(
-        `[SUCCESS] Parsed ${data.posts.length} posts from ${data.users.length} users`
-      );
-      console.log(
-        `[INFO] Found ${data.links.length} links and ${data.attachments.length} attachments\n`
+        `Success Parsed ${data.posts.length} posts from ${data.users.length} users`
       );
 
       return data;
     } catch (error) {
-      console.error("[ERROR] Failed to parse HTML:", error.message);
+      console.error(error.message);
       return data;
     }
   }
 
-  /**
-   * Clean HTML text content
-   */
   cleanText(text) {
     return text
       .replace(/<[^>]+>/g, "")
@@ -271,9 +238,6 @@ class DarknetScraper {
       .trim();
   }
 
-  /**
-   * Detect PII (Personally Identifiable Information) in text
-   */
   detectPII(text) {
     const patterns = {
       email: /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g,
@@ -298,9 +262,6 @@ class DarknetScraper {
     return hasAny ? detected : null;
   }
 
-  /**
-   * Deduplicate data using content hash
-   */
   deduplicate(item) {
     const hash = crypto
       .createHash("md5")
@@ -321,9 +282,6 @@ class DarknetScraper {
     return true;
   }
 
-  /**
-   * Save raw HTML data
-   */
   saveRawData(html, filename) {
     const filepath = path.join(this.dataDir, filename);
     fs.writeFileSync(filepath, html, "utf8");
@@ -331,9 +289,6 @@ class DarknetScraper {
     return filepath;
   }
 
-  /**
-   * Save parsed JSON data
-   */
   saveJsonData(data, filename) {
     const filepath = path.join(this.dataDir, filename);
     fs.writeFileSync(filepath, JSON.stringify(data, null, 2), "utf8");
@@ -341,9 +296,6 @@ class DarknetScraper {
     return filepath;
   }
 
-  /**
-   * Generate comprehensive report
-   */
   generateReport(scrapedData) {
     console.log("[INFO] Generating comprehensive report...");
 
@@ -378,8 +330,6 @@ class DarknetScraper {
         jsonData: scrapedData.jsonDataFile,
       },
     };
-
-    // Analyze PII
     scrapedData.parsedData.posts.forEach((post) => {
       if (post.piiDetected) {
         report.piiAnalysis.postsWithPII++;
@@ -390,20 +340,15 @@ class DarknetScraper {
       }
     });
 
-    // Save report
     const reportPath = path.join(this.reportsDir, `report_${Date.now()}.json`);
     fs.writeFileSync(reportPath, JSON.stringify(report, null, 2), "utf8");
     console.log(`[SUCCESS] Report saved to: ${reportPath}\n`);
 
-    // Generate human-readable markdown report
     this.generateMarkdownReport(report);
 
     return report;
   }
 
-  /**
-   * Generate markdown report
-   */
   generateMarkdownReport(report) {
     const md = `# Darknet Scraping Report
 
@@ -485,35 +430,27 @@ ${report.attachments
     console.log(`[SUCCESS] Markdown report saved to: ${mdPath}\n`);
   }
 
-  /**
-   * Main scraping process
-   */
   async scrape(url) {
     console.log("═══════════════════════════════════════════════════════");
     console.log("           DARKNET SCRAPER - STARTING");
     console.log("═══════════════════════════════════════════════════════\n");
 
     try {
-      // Step 1: Fetch data from darknet
       const response = await this.fetchFromDarknet(url);
 
-      // Step 2: Save raw HTML
       const timestamp = Date.now();
       const rawHtmlFile = this.saveRawData(
         response.data,
         `raw_${timestamp}.html`
       );
 
-      // Step 3: Parse data
       const parsedData = this.parseThreadData(response.data, url);
 
-      // Step 4: Save parsed JSON
       const jsonDataFile = this.saveJsonData(
         parsedData,
         `parsed_${timestamp}.json`
       );
 
-      // Step 5: Prepare complete scraping data
       const scrapedData = {
         url: response.url,
         status: response.status,
@@ -524,7 +461,6 @@ ${report.attachments
         parsedData: parsedData,
       };
 
-      // Step 6: Generate report
       const report = this.generateReport(scrapedData);
 
       console.log("═══════════════════════════════════════════════════════");
@@ -533,46 +469,29 @@ ${report.attachments
 
       return report;
     } catch (error) {
-      console.error(
-        "\n═══════════════════════════════════════════════════════"
-      );
-      console.error("           SCRAPING FAILED");
-      console.error("═══════════════════════════════════════════════════════");
-      console.error(`[ERROR] ${error.message}\n`);
+      console.log(error.message);
       throw error;
     }
   }
 }
 
-// Main execution
 async function main() {
   const scraper = new DarknetScraper();
 
-  // The darknet forum URL from the task
   const darknetUrl =
     "http://darknet2efyjfa6vs6rbipf4pw5birq3wzlda43hmp2mrgt3py23qhad.onion/threads/discounts-on-avia-hotels-from-serggik00.3499/";
 
   try {
     const report = await scraper.scrape(darknetUrl);
-
-    console.log("📊 FINAL REPORT SUMMARY:");
-    console.log("─────────────────────────────────────────────────────");
-    console.log(`✓ Thread: ${report.summary.threadTitle}`);
-    console.log(`✓ Posts collected: ${report.summary.totalPosts}`);
-    console.log(`✓ Unique users: ${report.summary.uniqueUsers}`);
-    console.log(`✓ Links found: ${report.summary.totalLinks}`);
-    console.log(`✓ Attachments: ${report.summary.totalAttachments}`);
-    console.log(`✓ Posts with PII: ${report.piiAnalysis.postsWithPII}`);
-    console.log("─────────────────────────────────────────────────────\n");
-
+    console.log("Succes make report");
+    console.log(report);
     process.exit(0);
   } catch (error) {
-    console.error("Failed to complete scraping task:", error.message);
+    console.error(error.message);
     process.exit(1);
   }
 }
 
-// Run if called directly
 if (require.main === module) {
   main();
 }
